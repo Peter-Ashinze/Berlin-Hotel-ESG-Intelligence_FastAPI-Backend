@@ -387,3 +387,32 @@ def get_recommendation(hotel_name: str):
                 f"kg CO₂e per occupied room night."
             )
     }
+
+@app.get("/health")
+def health_check():
+
+    return {
+        "status": "API is running"
+    }
+
+
+@app.get("/debug/db")
+def debug_database():
+
+    try:
+
+        df = load_hotels()
+
+        return {
+            "database_connection": "successful",
+            "rows": len(df),
+            "columns": df.columns.tolist()[:20],
+            "total_columns": len(df.columns)
+        }
+
+    except Exception as e:
+
+        return {
+            "database_connection": "failed",
+            "error": str(e)
+        }
