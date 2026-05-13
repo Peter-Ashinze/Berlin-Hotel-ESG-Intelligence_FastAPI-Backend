@@ -35,8 +35,11 @@ def load_hotels():
         engine
     )
 
+    # Replace infinity with NaN
     df = df.replace([np.inf, -np.inf], np.nan)
-    df = df.where(pd.notnull(df), None)
+
+    # Convert all columns to object, then replace NaN with None
+    df = df.astype(object).where(pd.notnull(df), None)
 
     return df
 
